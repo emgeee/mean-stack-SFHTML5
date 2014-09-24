@@ -31,6 +31,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.get('/questions', function(req, res, next) {
+  db.collection('questions')
+    .find({})
+    .sort({votes: 1})
+    .toArray(function(err, questions) {
+      if(err) { return next(err); }
+
+      return res.send(questions);
+    });
+});
+
+
 app.post('/questions', function(req, res, next) {
   var body = req.body;
   body.votes = 0;
