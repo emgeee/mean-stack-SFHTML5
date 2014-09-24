@@ -31,6 +31,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.post('/questions', function(req, res, next) {
+  var body = req.body;
+  body.votes = 0;
+
+  db.collection('questions')
+    .insert(body, {w:1}, function(err, question) {
+      if(err) { return next(err); }
+
+      return res.send(question);
+    });
+
+});
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
