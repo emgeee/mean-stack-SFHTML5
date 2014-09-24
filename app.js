@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectID;
 var db;
 
 // connect to mongodb
@@ -52,6 +53,22 @@ app.post('/questions', function(req, res, next) {
       if(err) { return next(err); }
 
       return res.send(question);
+    });
+
+});
+
+app.put('/questions/:id', function(req, res, next) {
+
+  db.collection('questions')
+    .update({
+      _id: ObjectID(req.params.id)
+    },
+    { $inc: {votes: 1} },
+    { w:1 },
+    function(err, question) {
+      if(err) { return next(err); }
+
+      return res.send({success: true});
     });
 
 });
