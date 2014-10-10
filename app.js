@@ -31,6 +31,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.options('/questions', function(req, res){
+  res.header("Access-Control-Allow-Origin", "http://localhost:9000");
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With,,Content-Type, Authorization');
+  res.end('');
+});
+
+// Add headers
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:9000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
+    next();
+});
 
 app.get('/questions', function(req, res, next) {
   db.collection('questions')
@@ -45,11 +58,10 @@ app.get('/questions', function(req, res, next) {
 
 
 app.post('/questions', function(req, res, next) {
-  var body = req.body;
-  body.votes = 0;
-
+  var question = req.body;
+  question.votes = 0;
   db.collection('questions')
-    .insert(body, {w:1}, function(err, question) {
+    .insert(question, {w:1}, function(err) {
       if(err) { return next(err); }
 
       return res.send(question);
