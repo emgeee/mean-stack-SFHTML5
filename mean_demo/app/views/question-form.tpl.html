@@ -1,0 +1,10 @@
+<form ng-submit="submitQuestion();">
+  <h3>Have a question?</h3>
+  <div class="form-group">
+    <label>Post it here: </label>
+    <textarea ng-model="question.text" class="form-control"></textarea>
+  </div>
+  <div class="form-group">
+    <input type="submit" class="btn btn-primary" ng-disabled="!question.text">
+  </div>
+</form>
