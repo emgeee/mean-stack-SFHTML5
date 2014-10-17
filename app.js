@@ -5,17 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var MongoClient = require('mongodb').MongoClient;
-var ObjectID = require('mongodb').ObjectID;
-var db;
-
-// connect to mongodb
-MongoClient.connect("mongodb://localhost:27017/sfhtml_demo", function(err, database) {
-  if(err) { throw err; }
-
-  db = database;
-});
-
+var questions = require('./routes/questions');
 
 var app = express();
 
@@ -45,46 +35,10 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/questions', function(req, res, next) {
-  db.collection('questions')
-    .find({})
-    .sort({votes: 1})
-    .toArray(function(err, questions) {
-      if(err) { return next(err); }
 
-      return res.send(questions);
-    });
-});
-
-
-app.post('/questions', function(req, res, next) {
-  var question = req.body;
-  question.votes = 0;
-  db.collection('questions')
-    .insert(question, {w:1}, function(err) {
-      if(err) { return next(err); }
-
-      return res.send(question);
-    });
-
-});
-
-app.put('/questions/:id', function(req, res, next) {
-
-  db.collection('questions')
-    .update({
-      _id: ObjectID(req.params.id)
-    },
-    { $inc: {votes: 1} },
-    { w:1 },
-    function(err, question) {
-      if(err) { return next(err); }
-
-      return res.send({success: true});
-    });
-
-});
-
+app.get('/questions', questions.index);
+app.post('/questions', questions.create);
+app.put('/questions/:id', questions.upvote);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
