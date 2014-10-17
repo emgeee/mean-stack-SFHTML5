@@ -13,7 +13,8 @@ angular.module('meanDemoApp')
     var apiRootUrl = 'http://localhost:3000';
 
     return $resource(
-      apiRootUrl + "/questions/:id",
+      // apiRootUrl + "/questions/:id",
+      "/questions/:id",
       {id: "@id" },
       { "update": {method:"PUT"} }
     );
