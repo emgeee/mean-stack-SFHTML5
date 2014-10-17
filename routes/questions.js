@@ -43,14 +43,15 @@ exports.create = function(req, res, next) {
 exports.upvote = function(req, res, next) {
 
   db.collection('questions')
-    .update({
+    .findAndModify({
       _id: ObjectID(req.params.id)
     },
+    [],
     { $inc: {votes: 1} },
-    { w:1 },
+    { w:1, new:true },
     function(err, question) {
       if(err) { return next(err); }
 
-      return res.send({success: true});
+      return res.send(question);
     });
 };
