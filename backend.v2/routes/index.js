@@ -1,9 +1,17 @@
 var router = require('express').Router();
 
-// Todo: control source with an environment variable?
-// Switch between the dev and mongo services by (un)commenting
-//var data = require('../devQuestionsService'); // in-memory dev database
-var data = require('../mongoQuestionsService'); // MongoDb database
+// Switch between the dev and mongo services by setting MONGO=1
+// ex (for bash/zsh): MONGO=1 npm start
+// or (for fish): env MONGO=1 npm start
+var data;
+
+if(process.env.MONGO) {
+  console.log('Using mongo');
+  data = require('../mongoQuestionsService'); // MongoDb database
+} else {
+  console.log('Using in memory database');
+  data = require('../devQuestionsService'); // in-memory dev database
+}
 
 // router.use(notImplemented);
 
