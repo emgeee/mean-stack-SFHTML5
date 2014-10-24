@@ -27,5 +27,16 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+# IDE detritus
+.idea
+
 # PowerPoint detritus
 ~$*.*
+
+#Don't commit Mongo Database files
+*.lock
+*.0
+*.1
+*.ns
+journal
+
