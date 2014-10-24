@@ -2,8 +2,8 @@ var router = require('express').Router();
 
 // Todo: control source with an environment variable?
 // Switch between the dev and mongo services by (un)commenting
-//var data = require('../devQuestionsService'); // in-memory dev database
-var data = require('../mongoQuestionsService'); // MongoDb database
+var data = require('../devQuestionsService'); // in-memory dev database
+//var data = require('../mongoQuestionsService'); // MongoDb database
 
 // router.use(notImplemented);
 
