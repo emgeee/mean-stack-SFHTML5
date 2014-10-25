@@ -29,7 +29,7 @@ function start(cb) {
                 process.exit(1); // We're cooked. Terminate.
             }
             database.db = db;
-            database.start = function(cb){ cb();}
+            database.start = function(cb){ cb();};
             cb();
         });
     });

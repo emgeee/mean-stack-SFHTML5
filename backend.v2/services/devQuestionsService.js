@@ -13,7 +13,7 @@ module.exports = {
 
 ///////////////////////////////////////////
 
-function ready(cb){ cb(); }; // ready immediately
+function ready(cb){ cb(); } // ready immediately
 
 function getQuestions(req, res) {
     res.send( sortSkipTake(req) );
