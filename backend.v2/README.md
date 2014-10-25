@@ -219,17 +219,19 @@ You can tell by the **`data.`** prefix that we expect these handlers to be membe
 
 First we'll require that service at the top of the file. 
 
-		var data = require('../devQuestionsService');
+		var data = require('../services/devQuestionsService');
 
-Next we'll create the data service in a new file.
+Next we'll create that data service in a new file.
 
 ## Create the *devQuestionsService*
 
-Our "development" data service exposes methods for getting fake Question data as if from a real database.
+Our "dev" data service will expose methods for getting fake Question data as if from a real database.
 
-* Create a new "*devQuestionsService.js*" file
+* Create a new ***services*** directory. We'll be adding more to this directory over time.
 
-* Add these module exports at the top of the file.
+* Add a new "*devQuestionsService.js*" file to that directory
+
+* Add these module exports at the top of that file.
 
 		module.exports = {
 		    createQuestion:       notImplemented,
@@ -262,18 +264,21 @@ Our "development" data service exposes methods for getting fake Question data as
 
 ## GET questions
 
-We've prepared some question data in "devData.js" for development and test purposes. Let's use it in our "devQuestionsService" and implement the first method that gets all of the questions. 
+We'll start with the `getQuestions` method that fetches all of the questions from the database. 
 
-* Add the `questions` collection definition to the top of the file, populated from the devData.
+We've prepared some sample Question data in "devData.js" for development and test purposes and we'll use those data in our "devQuestionsService".
 
-		var questions = require('../devData').questions;
+* Copy "devData.js" from the github repository in the "~/backend/services" folder into your "services" folder.
 
+* Populate the `questions` collection variable at the top of the file with the sample Questions in "devData".
 
-* Update the exports with the forthcoming `getQuestions` method instead of `notImplemented`
+		var questions = require('./devData').questions;
+
+* Update the exports with the `getQuestions` method instead of `notImplemented`
 
 		getQuestions: getQuestions,
 
-* Implement it in one line ... a line that simply sends the entire array of questions to the client.
+* Implement that method in one line ... a line that simply sends the entire array of questions to the client.
 
 		function getQuestions(req, res) {
 		    res.send( questions );
@@ -288,7 +293,7 @@ This time you should see JSON question data displayed in the browser.
 
 ## GET question by ID
 
-`getQuestionById` is one of several methods find a Question by its id:
+`getQuestionById` is one of several methods that fetch a Question by its id:
 
 	getQuestionById // GET    /api/questions/:id
 	voteForQuestion // POST   /api/questions/:id/vote
