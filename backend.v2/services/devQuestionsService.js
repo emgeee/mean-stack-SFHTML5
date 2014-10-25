@@ -7,13 +7,13 @@ module.exports = {
     getQuestions:         getQuestions,
     getQuestionById:      getQuestionById,
     getQuestionSummaries: getQuestionSummaries,
+    ready:                ready,
     voteForQuestion:      voteForQuestion
 };
 
 ///////////////////////////////////////////
 
-
-
+function ready(cb){ cb(); }; // ready immediately
 
 function getQuestions(req, res) {
     res.send( sortSkipTake(req) );

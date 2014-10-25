@@ -1,6 +1,5 @@
 var ObjectID = require('mongodb').ObjectID;
-var db = require('./database').db;
-var questions = db.collection('questions');
+var db, questions;
 
 module.exports = {
     createQuestion:       createQuestion,
@@ -8,10 +7,21 @@ module.exports = {
     getQuestions:         getQuestions,
     getQuestionById:      getQuestionById,
     getQuestionSummaries: getQuestionSummaries,
+    ready:                ready,
     voteForQuestion:      voteForQuestion
 };
 
 ////////////////////
+
+function ready(cb){ // ready when MongoDb is initialize
+    var database = require('./database').start(function(){
+        db = database.db;
+        questions = db.collection('questions');
+        cb();
+    });
+    return module.exports;
+}
+
 // Prepare a "Get Questions" query based on request parameters and optional 'fields'
 function getQuestionsQuery(req, fields){
 

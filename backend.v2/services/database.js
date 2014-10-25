@@ -1,4 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
+
 var database = {
     start: start,
     db:    null
@@ -22,14 +23,17 @@ function start(cb) {
             process.exit(1); // We're cooked. Terminate.
         }
 
-        database.db = db;
         require('./mongoDbInit').load(db, function(err){
             if(err) {
                 console.error('MongoDb initialization failed.\n' + err.message);
                 process.exit(1); // We're cooked. Terminate.
             }
+            database.db = db;
+            database.start = function(cb){ cb();}
             cb();
         });
     });
+    database.start = function(){throw new Error("MongoDb initialization in progress");};
+    return database;
 }
 
