@@ -21,7 +21,7 @@ We'll need additional capabilities
 
 *  CORS support
 *  MongoDb client for JavaScript
-*  The Mongoskin wrapper around the MongoDb client that should make working with Mongo a little easier
+
 
 and we'll acquire them with additional packages;
 
@@ -31,7 +31,6 @@ and we'll acquire them with additional packages;
 
         "cors": "^2.2.0",
         "mongodb": "^1.4.19",
-        "mongoskin": "^1.4.4"
 
 ## First run
 

@@ -1,12 +1,13 @@
 #!/usr/bin/env node
-var debug = require('debug')('backend');
 var config = require('../config');
 
-config.isReady(function() {
+config.ready(function() {
+
   var app = require('../app');
   app.set('port', process.env.PORT || 4567);
 
   var server = app.listen(app.get('port'), function() {
+    var debug = require('debug')('backend');
     debug('Express server listening on port ' + server.address().port);
     console.log('Express data server listening on port ' + app.get('port'));
   });

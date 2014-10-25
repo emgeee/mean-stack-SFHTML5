@@ -48,7 +48,7 @@
             "url": "http:\/\/localhost:4567\/api\/questions\/5448b9286ef8c23446fd1767\/vote",
             "method": "POST",
             "headers": "Content-Type: application\/json\n",
-            "data": "{\"votes\": -1}",
+            "data": "{\"vote\": -1}",
             "dataMode": "raw",
             "timestamp": 0,
             "version": 2
@@ -74,7 +74,7 @@
             "url": "http:\/\/localhost:4567\/api\/questions\/5448b9286ef8c23446fd1767\/vote",
             "method": "POST",
             "headers": "Content-Type: application\/json\n",
-            "data": "{\"votes\": 3}",
+            "data": "{\"vote\": 3}",
             "dataMode": "raw",
             "timestamp": 0,
             "version": 2

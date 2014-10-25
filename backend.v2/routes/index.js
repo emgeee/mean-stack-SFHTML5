@@ -1,8 +1,5 @@
 var router = require('express').Router();
 
-// Switch between the dev and mongo services by setting MONGO=1
-// ex (for bash/zsh): MONGO=1 npm start
-// or (for fish): env MONGO=1 npm start
 var data = require('../config').data;
 
 // router.use(notImplemented);

@@ -1,7 +1,5 @@
-var questions = require('./devData').questions;
 var ObjectID = require('mongodb').ObjectID;
-
-console.log('Connecting to developer in-memory database');
+var questions = require('./devData').questions;
 
 module.exports = {
     createQuestion:       createQuestion,

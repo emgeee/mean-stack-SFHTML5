@@ -1,5 +1,5 @@
 var ObjectID = require('mongodb').ObjectID;
-var db = require('./database').getDb();
+var db = require('./database').db;
 var questions = db.collection('questions');
 
 module.exports = {
@@ -12,23 +12,23 @@ module.exports = {
 };
 
 ////////////////////
-// Prepare a "Get Questions" query based on request parameters
-function getQuestionsQuery(req){
+// Prepare a "Get Questions" query based on request parameters and optional 'fields'
+function getQuestionsQuery(req, fields){
 
-    var query = questions.find();
+    var options = {};
+    var query = req.query; // request query string params
 
-    if(req.query.limit) {
-        query.limit(parseInt(req.query.limit,10));
+    if(query.limit) {
+        options.limit = parseInt(query.limit,10);
     }
-    if(req.query.offset) {
-        query.skip(parseInt(req.query.offset,10));
+    if(query.offset) {
+        options.skip = parseInt(query.offset,10);
     }
 
-    if(req.query.sort) {
-        var sort = req.query.sort;
-
-        if(sort === 'votes') { query.sort({voteCount: -1}); }
-        if(sort === 'time')  { query.sort({created: 1});}
+    if(query.sort) {
+        var sort = query.sort;
+        if(sort === 'votes') { options.sort = {voteCount: -1}; }
+        if(sort === 'time')  { options.sort = {created: 1}; }
 
         // Could sort on _id as proxy for the created property, e.g.
         //   if(sort === 'time') { query.sort({_id: 1}); }
@@ -38,7 +38,7 @@ function getQuestionsQuery(req){
         // Let's keep it obvious and sort on created.
     }
 
-    return query;
+    return questions.find({}, fields, options);
 }
 
 
@@ -55,17 +55,16 @@ function getQuestions(req, res, next) {
 
 function getQuestionSummaries(req, res, next) {
 
-    var query = getQuestionsQuery(req);
-
     // Keep only the "summary" fields
-    query.fields({
-        _id: 1,
-        category: 1,
-        text: 1,
-        created: 1,
-        voteCount : 1
-    });
+    var fields = {
+            _id: 1,
+            category: 1,
+            text: 1,
+            created: 1,
+            voteCount : 1
+        };
 
+    var query = getQuestionsQuery(req, fields);
     query.toArray(function(err, quests) {
         if(err) { return next(err); }
 
@@ -200,4 +199,3 @@ function questionNotFound(next){
     err.status = 404;
     next(err);
 }
-
