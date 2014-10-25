@@ -40,3 +40,5 @@ node_modules
 *.ns
 journal
 
+
+.DS_store

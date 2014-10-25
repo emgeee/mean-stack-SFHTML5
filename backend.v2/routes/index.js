@@ -7,10 +7,10 @@ var data;
 
 if(process.env.MONGO) {
   console.log('Using mongo');
-  data = require('../mongoQuestionsService'); // MongoDb database
+  data = require('../services/mongoQuestionsService'); // MongoDb database
 } else {
   console.log('Using in memory database');
-  data = require('../devQuestionsService'); // in-memory dev database
+  data = require('../services/devQuestionsService'); // in-memory dev database
 }
 
 // router.use(notImplemented);

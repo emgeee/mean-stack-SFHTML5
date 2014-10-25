@@ -87,7 +87,7 @@ function getQuestionById(req, res, next) {
         if (question){
             return res.send(question);
         } else {
-            questionNotFound(next)
+            questionNotFound(next);
         }
     });
 }
@@ -164,7 +164,7 @@ function voteForQuestion(req, res, next) {
             if (question){
                 return res.send(question);
             } else {
-                questionNotFound(next)
+                questionNotFound(next);
             }
         }
     );
