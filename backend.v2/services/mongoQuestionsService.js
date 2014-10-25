@@ -1,11 +1,6 @@
 var ObjectID = require('mongodb').ObjectID;
-var db = require('./database');
-var questions;
-
-//TODO: move this initialization logic such that server won't listen until it's done
-require('./mongoDataInit').load(function(){
-    questions = db.collection('questions');
-});
+var db = require('./database').getDb();
+var questions = db.collection('questions');
 
 module.exports = {
     createQuestion:       createQuestion,
