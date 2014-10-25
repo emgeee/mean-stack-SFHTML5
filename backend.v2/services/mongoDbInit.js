@@ -8,13 +8,18 @@ function load(db, callback){
         return;
     }
 
-    var questions = require('./devData').questions; // sample data
     var col = db.collection('questions');
-    col.remove({}, function(err){
+
+    // Remove all existing question
+    col.remove({}, initialize);
+
+    // Initialize with sample questions
+    function initialize(err){
         if (err){
             callback(err);
             return;
         }
+        var questions = require('./devData').questions; // sample data
         var count = 0;
         for (var i = 0, len = questions.length; i < len; i++) {
             col.insert(questions[i],
@@ -27,7 +32,7 @@ function load(db, callback){
                         }
                         //console.log("Inserted #"+i);
                         count += 1;
-                        if (count == len){
+                        if (count === len){
                             console.log('Initialized database with '+count+' questions');
                             callback();
                         }
@@ -35,15 +40,19 @@ function load(db, callback){
                 })(i));
         }
 
-        /*** can't get bulk insert to work with mongoskin
-         var bulk = db.collection('questions').initializeUnorderedBulkOp();
+        /*** Todo: use bulk insert instead of iterating.
+         var bulk = col.initializeUnorderedBulkOp();
          for (var i = 0; i < questions.len; i++) {
             bulk.insert(questions[i]);
         }
          bulk.execute(function(err,result) {
-            killServerIfError(err);
-            if (callback) { callback(); }
+            if (err){
+                callback(err);
+                return;
+            }
+            console.log('Initialized database with '+count+' questions');
+            callback();
         });
          */
-    });
+    }
 }
