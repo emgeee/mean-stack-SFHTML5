@@ -36,7 +36,7 @@ Start them separately.
 
 The terminal window tells you that the server is running and in which mode (in-mem or mongo).
 
-You can easily access the GET apis in a browser. Try these URLs:
+You can try the GET apis in a browser. Here are some sample URLs:
 
 	http://localhost:4567/api/questions
 	http://localhost:4567/api/questions?limit=3
@@ -44,7 +44,7 @@ You can easily access the GET apis in a browser. Try these URLs:
 	http://localhost:4567/api/questions/summaries?sort=votes&limit=5
 	http://localhost:4567/api/questions/5448b56b57675cbc246e6dbd
 
-You'll want to use a tool like `curl` to try the POST methods. 
+You'll have to use a tool like `curl` to try the POST methods. 
 
 We think the [Postman chrome plugin](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en) is a great API exploration tool. We've made it easy for you by preparing some requests in a Postman json file. 
 
@@ -62,13 +62,12 @@ You should see a new collection called "MEAN Demo". Have fun.
 This section of the code is a separate static site that consumes the data API created in `backend`.
 
 You can run it by serving up the assets in `frontend/app` in a simple HTTP server, such as [http-server](https://github.com/nodeapps/http-server).
-```
-npm install http-server -g
-cd frontend/app
-http-server -p 3000 # default port is 8080
-```
 
-Now you can access the demo at http://localhost:3000
+	npm install http-server -g # one-time only
+	cd frontend/app
+	http-server -p 3000 # default port is 8080
+
+Now you can access the demo at `http://localhost:3000`
 
 
 ## Directory Structure
@@ -77,14 +76,13 @@ The following is a quick orientation to the salient structural features of this 
 
     /backend                  - ignore it
     
-    /backend.v2               - the node/express/mongo data server
-       /bin/www               - the launch point for server
+    /backend.v2               - the node-express-mongo data server
+       /bin/www               - the launch point for the server
+       /dataservice           - the in-memory and MongoDb data services
        /public                - static client assets ... there are none as this is a data server
        /routes                - the router for the data api
-       /services              - implementation of the in-memory and MongoDb data 
        API Requirements.md    - the "original" requirements for the data api
        app.js                 - the express server
-       config.js              - server configuration values
        Postman_MEAN_Demo.json - Postman request collection, helpful in api exploration
        Tutorial.md            - How to build the backend from scratch
     
