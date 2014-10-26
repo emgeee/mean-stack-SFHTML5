@@ -38,7 +38,16 @@ The terminal window tells you that the server is running and in which mode (in-m
 
 ## Start the frontend server
 
-TBD
+This section of the code is a separate static site that consumes the data API created in `backend`.
+
+You can run it by serving up the assets in `frontend/app` in a simple HTTP server, such as [http-server](https://github.com/nodeapps/http-server).
+```
+npm install http-server -g
+cd frontend/app
+http-server -p 3000 # default port is 8080
+```
+
+Now you can access the demo at http://localhost:3000
 
 
 ## Directory Structure
