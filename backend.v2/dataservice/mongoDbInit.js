@@ -11,41 +11,23 @@ function load(db, callback){
     var col = db.collection('questions');
 
     // Remove all existing question
-    col.remove({}, initialize);
-
-    // Initialize with sample questions
-    function initialize(err){
+    col.remove({}, function(err){
         if (err){
             callback(err);
             return;
         }
-        var questions = require('./sampleData').questions; // sample data
-        var count = 0;
-        for (var i = 0, len = questions.length; i < len; i++) {
-            col.insert(questions[i],
-                {w:1},
-                (function(i){
-                    return function(err) {
-                        if (err){
-                            callback(err);
-                            return;
-                        }
-                        //console.log("Inserted #"+i);
-                        count += 1;
-                        if (count === len){
-                            console.log('Initialized database with '+count+' questions');
-                            callback();
-                        }
-                    }
-                })(i));
-        }
+        initialize();
+    });
 
-        /*** Todo: use bulk insert instead of iterating.
-         var bulk = col.initializeUnorderedBulkOp();
-         for (var i = 0; i < questions.len; i++) {
+    // Initialize with sample questions
+    function initialize(){
+        var questions = require('./sampleData').questions;
+        var bulk = col.initializeUnorderedBulkOp();
+        var count = questions.length;
+        for (var i = 0; i < count; i++) {
             bulk.insert(questions[i]);
         }
-         bulk.execute(function(err,result) {
+        bulk.execute(function(err){
             if (err){
                 callback(err);
                 return;
@@ -53,6 +35,5 @@ function load(db, callback){
             console.log('Initialized database with '+count+' questions');
             callback();
         });
-         */
     }
 }
