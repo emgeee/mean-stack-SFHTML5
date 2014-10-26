@@ -10,11 +10,10 @@
 angular.module('meanDemoApp')
   .factory('Question', function ($resource) {
 
-    var apiRootUrl = 'http://localhost:3000';
+    var apiRootUrl = 'http://localhost:4567/api';
 
     return $resource(
-      // apiRootUrl + "/questions/:id",
-      "/questions/:id",
+      apiRootUrl + "/questions/:id",
       {id: "@id" },
       { "update": {method:"PUT"} }
     );
