@@ -15,8 +15,8 @@
       </div>
 
       <div ng-app="meanDemoApp">
-        <div ng-controller="QuestionformCtrl" ng-include="'/views/question-form.tpl.html'"></div>
-        <div ng-controller="QuestionlistCtrl" ng-include="'/views/question-list.tpl.html'"></div>
+        <question-form></question-form>
+        <question-list></question-list>
       </div>
 
 
@@ -33,5 +33,7 @@
     <script src="scripts/controllers/questionlist.js"></script>
     <script src="scripts/controllers/questionform.js"></script>
     <script src="scripts/services/questionservice.js"></script>
+    <script src="scripts/directives/questionform.js"></script>
+    <script src="scripts/directives/questionlist.js"></script>
 </body>
 </html>
