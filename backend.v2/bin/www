@@ -6,4 +6,5 @@ var server = app.listen(app.get('port'), function() {
     var debug = require('debug')('backend');
     debug('Express server listening on port ' + server.address().port);
     console.log('Express data server listening on port ' + app.get('port'));
+    require('../dataservice/notifier').listen(server);
 });

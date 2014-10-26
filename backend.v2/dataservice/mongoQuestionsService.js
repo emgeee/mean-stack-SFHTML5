@@ -1,4 +1,5 @@
 var ObjectID = require('mongodb').ObjectID;
+var notifier = require('./notifier');
 var db, questions;
 
 module.exports = {
@@ -139,6 +140,7 @@ function createQuestion(req, res, next) {
         questions.insert(question, {w:1}, function(err) {
             if(err) { return next(err); }
 
+            notifier.questionAdded(question);
             return res.send(question);
         });
     }
@@ -166,6 +168,7 @@ function voteForQuestion(req, res, next) {
             if(err) { return next(err); }
 
             if (question){
+                notifier.voteAdded(question);
                 return res.send(question);
             } else {
                 questionNotFound(next);
@@ -186,6 +189,7 @@ function deleteQuestion(req, res, next){
             if(err) { return next(err); }
 
             if (question){
+                notifier.questionDeleted(question);
                 // respond with status and no content.
                 res.status(204).end();
             } else {
