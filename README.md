@@ -36,6 +36,27 @@ Start them separately.
 
 The terminal window tells you that the server is running and in which mode (in-mem or mongo).
 
+You can easily access the GET apis in a browser. Try these URLs:
+
+	http://localhost:4567/api/questions
+	http://localhost:4567/api/questions?limit=3
+	http://localhost:4567/api/questions/summaries
+	http://localhost:4567/api/questions/summaries?sort=votes&limit=5
+	http://localhost:4567/api/questions/5448b56b57675cbc246e6dbd
+
+You'll want to use a tool like `curl` to try the POST methods. 
+
+We think the [Postman chrome plugin](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en) is a great API exploration tool. We've made it easy for you by preparing some requests in a Postman json file. 
+
+Import those requests as follows:
+
+- Open Postman
+- Click the **Collections** button
+- Click the **inbox icon**
+- Drag *backend.v2/Postman_MEAN_Demo.json* onto the dialog box
+
+You should see a new collection called "MEAN Demo". Have fun.
+
 ## Start the frontend server
 
 This section of the code is a separate static site that consumes the data API created in `backend`.
