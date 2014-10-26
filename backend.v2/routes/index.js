@@ -1,7 +1,7 @@
 var router = require('express').Router();
 module.exports = router;
 
-var data = require('../config').data;
+var data = require('../dataservice');
 data.ready(setRoutes);
 
 // router.use(notImplemented);

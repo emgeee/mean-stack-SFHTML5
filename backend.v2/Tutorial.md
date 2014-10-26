@@ -219,17 +219,17 @@ You can tell by the **`data.`** prefix that we expect these handlers to be membe
 
 First we'll require that service at the top of the file. 
 
-		var data = require('../services/devQuestionsService');
+		var data = require('../dataservice');
 
 Next we'll create that data service in a new file.
 
-## Create the *devQuestionsService*
+## Create the data service
 
-Our "dev" data service will expose methods for getting fake Question data as if from a real database.
+Our data service will expose methods for getting fake Question data as if from a real database.
 
-* Create a new ***services*** directory. We'll be adding more to this directory over time.
+* Create a new ***dataservice*** directory. We'll be adding more to this directory over time.
 
-* Add a new "*devQuestionsService.js*" file to that directory
+* Add a new "*index.js*" file to that directory
 
 * Add these module exports at the top of that file.
 
@@ -242,7 +242,7 @@ Our "dev" data service will expose methods for getting fake Question data as if 
 		    voteForQuestion:      notImplemented
 		};
 
-* Move the `notImplemented` function here from "index.js":
+* Move the `notImplemented` function here from "routes/index.js":
 
 		function notImplemented(req, res, next) {
 		    next(new Error(
@@ -266,13 +266,13 @@ Our "dev" data service will expose methods for getting fake Question data as if 
 
 We'll start with the `getQuestions` method that fetches all of the questions from the database. 
 
-We've prepared some sample Question data in "devData.js" for development and test purposes and we'll use those data in our "devQuestionsService".
+We've prepared some sample Question data in "sampleData.js" for development and test purposes and we'll use those data in our data service.
 
-* Copy "devData.js" from the github repository in the "~/backend/services" folder into your "services" folder.
+* Copy "sampleData.js" from the github repository in the "~/backend/services" folder into your "services" folder.
 
-* Populate the `questions` collection variable at the top of the file with the sample Questions in "devData".
+* Populate the `questions` collection variable at the top of the file with the sample Questions in "sampleData".
 
-		var questions = require('./devData').questions;
+		var questions = require('./sampleData').questions;
 
 * Update the exports with the `getQuestions` method instead of `notImplemented`
 
@@ -343,7 +343,7 @@ They all need a `:id` parameter. They all return a 404 if they can't find a Ques
 
 * Stop and re-start the server
  
-* Re-try with one of the devData ids
+* Re-try with one of the sample data ids
 
 		localhost:4567/api/questions/5448b9286ef8c23446fd1767
 

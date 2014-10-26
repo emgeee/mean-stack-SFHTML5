@@ -1,5 +1,5 @@
 var ObjectID = require('mongodb').ObjectID;
-var questions = require('./devData').questions;
+var questions = require('./sampleData').questions;
 
 module.exports = {
     createQuestion:       createQuestion,

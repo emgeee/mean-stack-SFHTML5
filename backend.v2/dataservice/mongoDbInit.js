@@ -19,7 +19,7 @@ function load(db, callback){
             callback(err);
             return;
         }
-        var questions = require('./devData').questions; // sample data
+        var questions = require('./sampleData').questions; // sample data
         var count = 0;
         for (var i = 0, len = questions.length; i < len; i++) {
             col.insert(questions[i],
