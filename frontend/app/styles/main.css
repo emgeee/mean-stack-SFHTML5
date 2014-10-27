@@ -1,0 +1,8 @@
+.question-list li {
+    background-color: #fff;
+    transition: background-color 4s ease-out;
+}
+
+.question-list li.new {
+    background-color: #e0f5ff;
+}

@@ -5,8 +5,8 @@
   <button ng-click="predicate = '-voteCount'; questionTitle = 'Most Popular Questions'" class="btn btn-info btn-sm">Most Popular</button>
 </div>
 <br>
-<ul class="list-group">
-  <li ng-repeat="question in questions | orderBy:predicate" class="list-group-item">
+<ul class="question-list list-group">
+  <li ng-repeat="question in questions | orderBy:predicate" class="list-group-item" ng-class="{new: question.new}">
     <div class="pull-right">
       <label style="padding: 5px;">{{question.voteCount}}</label>
       <button ng-click="upvote(question)" class="btn btn-success btn-sm pull-right">&plus;1</button>

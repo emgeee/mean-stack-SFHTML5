@@ -35,7 +35,7 @@ angular.module('meanDemoApp')
     // Listen for updates
 
   })
-  .controller('QuestionlistListeningCtrl', function ($scope, Question) {
+  .controller('QuestionlistListeningCtrl', function ($scope, $timeout, Question) {
 
     $scope.questions = [];
     Question.query(null,
@@ -50,7 +50,11 @@ angular.module('meanDemoApp')
     // Listen for updates
 
     $scope.$on('questionAdded', function(event, question) {
+      question.new = true;
       $scope.questions.unshift(question);
+      $timeout(function() {
+        delete question.new;
+      }, 2000);
     });
 
     $scope.$on('voteAdded', function (event, voteMsg) {
