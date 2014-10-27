@@ -1,7 +1,14 @@
-<h3>Newest Questions</h3>
+<h3>{{questionTitle || 'Questions'}}</h3>
+<div class="form-inline">
+  <label>Sort</label>
+  <button ng-click="predicate = '-created'; questionTitle = 'Newest Questions'" class="btn btn-info btn-sm">Newest</button>
+  <button ng-click="predicate = '-voteCount'; questionTitle = 'Most Popular Questions'" class="btn btn-info btn-sm">Most Popular</button>
+</div>
+<br>
 <ul class="list-group">
-  <li ng-repeat="question in questions" class="list-group-item">
+  <li ng-repeat="question in questions | orderBy:predicate" class="list-group-item">
     <button ng-click="upvote(question)" class="btn btn-success btn-sm">&plus;1</button>
+    <span class="badge">{{question.voteCount}}</span>
     {{question.text}} <small>&ndash;{{question.name}}</small>
   </li>
 </ul>
