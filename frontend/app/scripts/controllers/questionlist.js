@@ -26,4 +26,8 @@ angular.module('meanDemoApp')
     }
 
     getQuestions();
+
+    $scope.upvote = function(question) {
+      Question.vote({id: question._id});
+    };
   });

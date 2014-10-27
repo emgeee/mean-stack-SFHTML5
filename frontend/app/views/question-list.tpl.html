@@ -1,6 +1,7 @@
 <h3>Newest Questions</h3>
-<ul class="list-unstyled">
-  <li ng-repeat="question in questions">
+<ul class="list-group">
+  <li ng-repeat="question in questions" class="list-group-item">
+    <button ng-click="upvote(question)" class="btn btn-success btn-sm">&plus;1</button>
     {{question.text}} <small>&ndash;{{question.name}}</small>
   </li>
 </ul>

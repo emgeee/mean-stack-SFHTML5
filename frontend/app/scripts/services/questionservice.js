@@ -16,9 +16,12 @@ angular.module('meanDemoApp')
     logNotifications();
 
     return $resource(
-      apiRootUrl + "/questions/:id",
-      {id: "@id" },
-      { "update": {method:"PUT"} }
+      apiRootUrl + '/questions/:id',
+      { id: '@id' },
+      { vote: {
+        method: 'POST',
+        url: apiRootUrl + '/questions/:id/vote' }
+      }
     );
 
     //////////////
