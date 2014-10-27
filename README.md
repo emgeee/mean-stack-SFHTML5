@@ -19,7 +19,7 @@ Start them separately.
 ## Start the backend data server
 * start your MongoDb server
 * open a terminal or command window
-* go to the `backend.v2` directory
+* go to the `backend` directory
 * run `npm install`
 * choose to run either with the in-memory db or with mongo
     * in-mem: 
@@ -53,7 +53,7 @@ Import those requests as follows:
 - Open Postman
 - Click the **Collections** button
 - Click the **inbox icon**
-- Drag *backend.v2/Postman_MEAN_Demo.json* onto the dialog box
+- Drag *backend/Postman_MEAN_Demo.json* onto the dialog box
 
 You should see a new collection called "MEAN Demo". Have fun.
 
@@ -74,9 +74,7 @@ Now you can access the demo at `http://localhost:3000`
 
 The following is a quick orientation to the salient structural features of this application
 
-    /backend                  - ignore it
-    
-    /backend.v2               - the node-express-mongo data server
+    /backend                  - the node-express-mongo data server
        /bin/www               - the launch point for the server
        /dataservice           - the in-memory and MongoDb data services
        /public                - static client assets ... there are none as this is a data server
@@ -87,9 +85,3 @@ The following is a quick orientation to the salient structural features of this 
        Tutorial.md            - How to build the backend from scratch
     
     /frontend                 - the client application written with angular 
-      
-
-
-
-
-
