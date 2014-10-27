@@ -1,4 +1,5 @@
 var ObjectID = require('mongodb').ObjectID;
+var notifier = require('./notifier');
 var questions = require('./sampleData').questions;
 
 module.exports = {
@@ -67,6 +68,8 @@ function createQuestion(req, res, next) {
 
     questions.push(question);
 
+    notifier.questionAdded(question);
+
     res.send(question);
 
     ////////
@@ -85,6 +88,7 @@ function voteForQuestion(req, res, next) {
     var question = findQuestionById(req);
     if (question){
         addVote(question, req);
+        notifier.voteAdded(question);
         res.send(question);
     } else {
         questionNotFound(next);
@@ -124,6 +128,8 @@ function deleteQuestion(req, res, next) {
 
         // delete it from the in-memory array with "splice"
         questions.splice(questions.indexOf(question), 1);
+
+        notifier.questionDeleted(question);
 
         // respond with status and no content.
         res.status(204).end();
