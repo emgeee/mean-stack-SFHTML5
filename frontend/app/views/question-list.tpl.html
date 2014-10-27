@@ -7,8 +7,12 @@
 <br>
 <ul class="list-group">
   <li ng-repeat="question in questions | orderBy:predicate" class="list-group-item">
-    <button ng-click="upvote(question)" class="btn btn-success btn-sm">&plus;1</button>
-    <span class="badge">{{question.voteCount}}</span>
-    {{question.text}} <small>&ndash;{{question.name}}</small>
+    <div class="pull-right">
+      <label style="padding: 5px;">{{question.voteCount}}</label>
+      <button ng-click="upvote(question)" class="btn btn-success btn-sm pull-right">&plus;1</button>
+    </div>
+    <strong>{{question.text}}</strong>
+    <br><small ng-show="question.name">&ndash;{{question.name}}</small>
+    <label ng-hide="question.category == 'unknown'" class="label label-info">{{question.category}}</label>
   </li>
 </ul>
