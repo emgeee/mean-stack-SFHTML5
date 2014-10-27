@@ -2,13 +2,14 @@
 
 /**
  * @ngdoc function
- * @name conferenceAppApp.controller:QuestionlistCtrl
+ * @name conferenceAppApp.controller:QuestionlistPollingCtrl and QuestionlistListeningCtrl
  * @description
- * # QuestionlistCtrl
+ * # Contains two implementations, QuestionlistPollingCtrl polls the server and updates the entire question list
+ * # QuestionlistListeningCtrl listens for events and updates list of questions accordingly
  * Controller of the conferenceAppApp
  */
 angular.module('meanDemoApp')
-  .controller('QuestionlistCtrl', function ($scope, $timeout, Question) {
+  .controller('QuestionlistPollingCtrl', function ($scope, $timeout, Question) {
 
     var pollInterval = 20000; // in milliseconds
 
@@ -30,4 +31,36 @@ angular.module('meanDemoApp')
     $scope.upvote = function(question) {
       Question.vote({id: question._id});
     };
+
+    // Listen for updates
+
+  })
+  .controller('QuestionlistListeningCtrl', function ($scope, Question) {
+
+    $scope.questions = [];
+    Question.query(null,
+      function(questions) {
+        $scope.questions = questions;
+      });
+
+    $scope.upvote = function(question) {
+      Question.vote({id: question._id});
+    };
+
+    // Listen for updates
+
+    $scope.$on('questionAdded', function(event, question) {
+      $scope.questions.unshift(question);
+    });
+
+    $scope.$on('voteAdded', function (event, voteMsg) {
+      $scope.questions.some(function(question) {
+        if (question._id === voteMsg.qid) {
+          question.voteCount = voteMsg.voteCount;
+          return true;
+        }
+        return false;
+      });
+    });
+
   });

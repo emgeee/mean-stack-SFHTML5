@@ -8,12 +8,12 @@
  * Factory in the meanDemoApp.
  */
 angular.module('meanDemoApp')
-  .factory('Question', function ($resource) {
+  .factory('Question', function ($resource, $rootScope) {
 
-    var rootUrl = 'http://localhost:4567';
+    var rootUrl = 'http://192.168.1.113:4567';
     var apiRootUrl = rootUrl + '/api';
 
-    logNotifications();
+    broadcastEvents();
 
     return $resource(
       apiRootUrl + '/questions/:id',
@@ -25,19 +25,19 @@ angular.module('meanDemoApp')
     );
 
     //////////////
-    function logNotifications(){
+    function broadcastEvents(){
         var socket = window.io.connect(rootUrl);
 
         socket.on('questionAdded', function (question) {
-            console.log('questionAdded: '+JSON.stringify(question));
+          $rootScope.$broadcast('questionAdded', question);
         });
 
         socket.on('questionDeleted', function (questionId) {
-            console.log('questionDeleted: '+questionId);
+          $rootScope.$broadcast('questionDeleted', questionId);
         });
 
         socket.on('voteAdded', function (voteMsg) {
-            console.log('voteAdded: '+JSON.stringify(voteMsg));
+          $rootScope.$broadcast('voteAdded', voteMsg);
         });
 
     }

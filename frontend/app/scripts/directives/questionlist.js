@@ -3,7 +3,7 @@ angular.module('meanDemoApp')
   return {
     restrict: "EA",
     scope: {},
-    controller: 'QuestionlistCtrl',
+    controller: 'QuestionlistListeningCtrl',
     templateUrl: '/views/question-list.tpl.html'
   };
 });
