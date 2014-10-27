@@ -4,6 +4,9 @@
     <label>Post it here: </label>
     <textarea ng-model="question.text" class="form-control"></textarea>
   </div>
+  <div class=" form-group">
+    <input ng-model="question.name" type="text" class="form-control" placeholder="Your Name (optional)">
+  </div>
   <div class="form-group">
     <input type="submit" class="btn btn-primary" ng-disabled="!question.text">
   </div>
