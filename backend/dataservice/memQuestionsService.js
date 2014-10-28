@@ -145,8 +145,8 @@ function deleteQuestion(req, res, next) {
 
 function notImplemented(req, res, next) {
     next(new Error(
-            req.method + ' ' +
-            req.originalUrl + ' is not implemented'
+        'Data service method for ' + req.method + ' ' +
+        req.originalUrl + ' is not implemented'
     ));
 }
 

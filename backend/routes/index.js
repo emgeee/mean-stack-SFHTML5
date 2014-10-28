@@ -26,9 +26,10 @@ router.post('/questions', data.createQuestion);
 router.delete('/questions/:id', data.deleteQuestion);
 
 /////////////
+
 function notImplemented(req, res, next) {
     next(new Error(
-            req.method + ' ' +
-            req.originalUrl + ' is not implemented'
+        req.method + ' ' +
+        req.originalUrl + ' API is not implemented'
     ));
 }

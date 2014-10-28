@@ -32,13 +32,11 @@ and we'll acquire them with additional packages;
         "cors": "^2.2.0",
         "mongodb": "^1.4.19",
 
-## First run
+## Install and run
 
 Now we ask npm to install all this goodness
 
 	npm install
-
->Ignore the patches of red errors. The "mongoskin" library wants to recompile some of the MongoDb internal modules (bson, kerboros) and we're not set up for that. Fortunately, we can take the shipped libraries as they are.
 
 Then we start the app and watch it run
 
@@ -50,79 +48,9 @@ The node/express server is running locally on port 3000. Go there in the browser
 
 You should see the generated Express home page.
 
-## Review the server code in *app.js*
+## Open the launch point: *bin/www*
 
-The generator scaffolded a general purpose web server that, among other things, can generate HTML pages from templates with a view engine (EJS in this case).
-
-We're building a data server. We won't be creating any pages. That means there's stuff we can delete.
-
-We could get side-tracked with such cleanup. But we think quickly eliminating some of the material that we won't need will mean more clarity now and fewer distractions later.
-
-1. Get rid of the view generation
-	*  Erase the "view engine setup"
-	*  Delete the views folder
-	*  Error handling fns use "send" instead of "render'
-<br/><br/>
-1. Delete the developer error handler; we don't have an error page any more.
-
-1. Delete the "users" and "index" routes which we will not use:
-
-        var routes = require('./routes/index');
-        var users = require('./routes/users');
-
-    and
-
-        app.use('/', routes);
-        app.use('/users', users);`
-
-1. Delete the "index.js" and "users.js" files in the "routes" folder.
-
-
-## Fix the error handler
-
-Rewrite it to send errors to the client as JSON which as a data API should do:
-
-	// no stack traces leaked to user
-	app.use(function(err, req, res, next) {
-	    res.status(err.status || 500)
-	       .send({
-	            message: err.message
-	        });
-	});
-
-## Add an API router to the server code in *app.js*
-
-The *API Requirements.md* documents the required data API.
-
-All of the HTTP requests begin `~/api`.
-
-Create an Express [**router**](http://expressjs.com/api.html#router) for our API and "mount" it at `/api`.
-
-* Add `var api = require('./routes');` after the other "require" calls.
-
-* Add `app.use('/api', api);` below the `app.use(express.static ...`
-
-Next create a router under the "routes" folder. In true node "WTF" fashion, we name this file "index.js"
-
-* Create a new "index.js" file under "routes"
-
-* Add the following initial implementation:
-
-		var router = require('express').Router();
-		
-		router.use(notImplemented);
-
-		function notImplemented(req, res, next) {
-			next(new Error(
-					req.method + ' ' + 
-					req.originalUrl + ' is not implemented'
-				));
-		}
-
-Henceforth, every request we send that begins `~\api` should result in a "not implemented" response. We'll test that in a moment.
-
-
-## A data server needs its own port
+**A data server needs its own port!**
 
 Remember we intend to **serve the client application from a different server than this data server**.
 
@@ -140,6 +68,70 @@ The `express` generator defaulted the server's port to 3000 in ***/bin/www*** . 
 
 		console.log('Express data server listening on port ' + app.get('port'));
 
+## Review the server code in *app.js*
+
+The generator scaffolded a general purpose web server that, among other things, can generate HTML pages from templates with a view engine (EJS in this case).
+
+We're building a data server. We won't be creating any pages. That means there's stuff we can delete.
+
+We could get side-tracked with such cleanup. But we think quickly eliminating some of the material that we won't need will mean more clarity now and fewer distractions later.
+
+1. Get rid of the view generation
+	*  Erase the "view engine setup"
+	*  Delete the views folder
+<br/><br/>
+
+
+1. Delete the references to "users" and "index" routes in "app.js" which we will not use:
+
+        var routes = require('./routes/index');
+        var users = require('./routes/users');
+
+    and
+
+        app.use('/', routes);
+        app.use('/users', users);`
+
+1. Delete the "users.js" files in the "routes" folder. Keep "index.js" which we'll re-purpose later.
+
+## Fix the error handler
+
+1. Delete the developer error handler; we don't have an error page any more.
+
+1. Fix the production error handler, replacing `render` with `send`. We'll send errors to the client as JSON as a data API should do. Get rid of the `error` property as well. When done it should look like this:
+
+	// no stack traces leaked to user
+	app.use(function(err, req, res, next) {
+	    res.status(err.status || 500)
+	       .send({
+	            message: err.message
+	        });
+	});
+
+## Add a static test page ("public/index.html")
+
+1. create new ***index.html*** file under **"public/"** folder 
+
+1. paste this into it:
+
+		<!DOCTYPE html>
+		<html>
+		  <head>
+		    <title>MEAN Demo API Server</title>
+		    <link rel='stylesheet' href='/stylesheets/style.css' />
+		  </head>
+		  <body>
+		    <h1>MEAN Demo API Server</h1>
+		  </body>
+		
+		  <p><a href="api/questions">get all questions</a></p>
+		  <p><a href="api/questions/5448b9286ef8c23446fd1767">get question by id</a></p>
+		  <p><a href="api/questions?sort=votes&limit=3">get top 3 questions</a></p>
+		  <hr>
+		  <p><a href="foo">bad file</a></p>
+		  <p><a href="api/bar">bad api route</a></p>
+		</html>
+
 ## Add CORS
 
 The browser will be running the client application from one address (e.g., `localhost:3000`) and requesting data from our data server at  `localhost:4567`.
@@ -155,13 +147,46 @@ Earlier we added the "cors" module to the *packages.json* file and installed it 
 
 * open *app.js*
 
-* add the following just above `app.use('/api', api);`
+* Add the following to the stack ... right below "static" 
 
 		app.use(require('cors')()); // enable ALL CORS requests
 
 Our data server will now accept HTTP requests from any browser anywhere.
 
 >If that sounds like a bad idea to you, you may have a point. The "Same Origin Policy" protects the server from some (lame) browser-based attacks and we just threw that guard away. Not a big deal IMO. If you feel otherwise, the "cors" module offers a wealth of configuration options. 
+
+## Add an API router to the server code in *app.js*
+
+The *API Requirements.md* documents the required data API.
+
+All of the HTTP requests begin `~/api`.
+
+We'll create an express [**router**](http://expressjs.com/api.html#router) for our API and "mount" it at `/api`.
+
+* Tell app to use the router by adding the following line the "CORS" line we just added.
+
+    app.use(require('./routes')); // data api routes
+
+* Open the "index.js" file under "routes"
+
+* Replace entire contents with this
+
+		var router = require('express').Router();
+		
+		router.use(notImplemented);
+		
+		module.exports = router;
+		
+		/////////
+
+		function notImplemented(req, res, next) {
+		    next(new Error(
+		        req.method + ' ' +
+		        req.originalUrl + ' API is not implemented'
+		    ));
+		}
+
+Henceforth, every request we send that begins `~\api` should result in a "500 - API is not implemented" response. We'll test that in a moment.
 
 ## Test this API router v.0.1
 
@@ -171,9 +196,14 @@ Our data server will now accept HTTP requests from any browser anywhere.
 
     > You can just use `node-debug bin/www` if you don't have "node-inspector" or don't want to debug with it.
 
-* Navigate to `http://localhost:4567` in a browser tab. You should get a 404 "not found" reply. The router is not involved yet. It won't get involved until it sees a route beginning `~/api`.
 
-* Append `/api/foo` to the address. This time you get the 500 "not implemented" message from the api router.  
+* Navigate to `http://localhost:4567` in a browser tab. You should see our test page.
+
+* Click the "bad file" link.  You should get a 404 "not found" reply. 
+
+	The router is not involved yet. It won't get involved until it sees a route beginning `~/api`.
+
+* Click any of the API links. This time you get the 500 - "Not implemented" message from the api router.  
  
     **Our api router is working**.
 
@@ -187,13 +217,13 @@ Comment out `router.use(notImplemented);` and add this code:
 
 	/* First match wins so the order of routes really matters! */
 	
-	// GET /api/questions/summaries?sort={time|votes}&limit={integer}&offset={integer}
+	// GET /api/questions/summaries
 	router.get('/questions/summaries', data.getQuestionSummaries);
 
 	// GET /api/questions/:id
 	router.get('/questions/:id', data.getQuestionById);
 	
-	//GET /api/questions?sort={time|votes}&limit={integer}&offset={integer}
+	// GET /api/questions
 	router.get('/questions', data.getQuestions);
 	
 	// POST /api/questions/:id/vote
@@ -242,18 +272,18 @@ Our data service will expose methods for getting fake Question data as if from a
 		    voteForQuestion:      notImplemented
 		};
 
-* Move the `notImplemented` function here from "routes/index.js":
+* It has a `notImplemented` function too:
 
 		function notImplemented(req, res, next) {
 		    next(new Error(
-		            req.method + ' ' +
-		            req.originalUrl + ' is not implemented'
+		        'Data service method for ' + req.method + ' ' +
+		        req.originalUrl + ' is not implemented'
 		    ));
 		}
 
 * Stop and re-start the server
 
-* Try `/api/foo` again
+* Try the "bad API" again
 
 	This time you get "404-Not Found" because this request URL doesn't match any of the router's templates.
 
