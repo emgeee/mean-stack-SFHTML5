@@ -10,7 +10,7 @@
 angular.module('meanDemoApp')
   .factory('Question', function ($resource, $rootScope) {
 
-    var rootUrl = 'http://192.168.1.113:4567';
+    var rootUrl = 'http://localhost:4567';
     var apiRootUrl = rootUrl + '/api';
 
     broadcastEvents();
@@ -24,7 +24,6 @@ angular.module('meanDemoApp')
       }
     );
 
-    //////////////
     function broadcastEvents(){
         var socket = window.io.connect(rootUrl);
 
@@ -39,6 +38,5 @@ angular.module('meanDemoApp')
         socket.on('voteAdded', function (voteMsg) {
           $rootScope.$broadcast('voteAdded', voteMsg);
         });
-
     }
   });
