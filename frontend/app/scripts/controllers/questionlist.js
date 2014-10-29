@@ -32,8 +32,6 @@ angular.module('meanDemoApp')
       Question.vote({id: question._id});
     };
 
-    // Listen for updates
-
   })
   .controller('QuestionlistListeningCtrl', function ($scope, $timeout, Question) {
 

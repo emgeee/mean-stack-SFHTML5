@@ -4,6 +4,6 @@ angular.module('meanDemoApp')
     restrict: "EA",
     scope: {},
     controller: 'QuestionlistListeningCtrl',
-    templateUrl: '/views/question-list.tpl.html'
+    templateUrl: 'views/question-list.tpl.html'
   };
 });
