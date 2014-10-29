@@ -393,42 +393,21 @@ They all need a `:id` parameter. They all return a 404 if they can't find a Ques
 		createQuestions: createQuestions,
 
 * Here's its implementation:
-function createQuestion(req, res, next) {
-
-    // get the new data from the POST body
-    var body = req.body || {};
-    var text = (body.text || '').trim();
-
-    // Build the question and save it
-    var question = {
-        _id:       ObjectID(),
-        created:   Date.now(),
-        text:      text,
-        category:  (body.category || 'unknown').trim(),
-        name:      (body.name || '').trim(),
-        voteCount: 0,
-        votes:     []
-    };
-
-    questions.push(question);
-
-    res.send(question);
 
 		function createQuestion(req, res, next) {
-	
+		
 		    // get the new data from the POST body
 		    var body = req.body || {};
-		    var text = body.text && body.text.trim();
 		
 		    // Build the question and save it
 		    var question = {
-		        _id: ObjectID(),
-		        created: Date.now(),
-		        text: text,
-		        category: body.category || 'unknown',
-		        name: body.name || '',
+		        _id:       ObjectID(),
+		        created:   Date.now(),
+		        text:      body.text,
+		        category:  body.category,
+		        name:      body.name,
 		        voteCount: 0,
-		        votes: []
+		        votes:     []
 		    };
 		
 		    questions.push(question);
@@ -438,24 +417,36 @@ function createQuestion(req, res, next) {
 
 There's almost no error checking at all. What if there's no text? What if someone asks the same question twice? Let's insert some guard logic.
 
-* Put the following between where we get the `text` and where we build the question:
+* Add this line below `var body = ...` to call an error checking routine
 
-	    // Error checking
-	    if (!text){
-	        var err = new Error('New question must have text');
-	        err.status=400;
-	        next(err);
-	        return;
+    	if (createBodyHasError(body, next)) { return; }
+
+* Append the following to `createQuestion` 
+
+	    //////// Error Checking
+	
+	    function createBodyHasError(body, next){
+	        var text = body.text = (body.text || '').trim();
+	        body.category = (body.category || 'unknown').trim();
+	        body.name = (body.name || '').trim();
+	
+	        // Error checking
+	        if (!text){
+	            var err = new Error('New question must have text');
+	            err.status=400;
+	            next(err)
+	            return true;
+	        }
+	
+	        else if ( questionExists(text) ){
+	            err = new Error('That question has been asked already');
+	            err.status=403; // forbidden
+	            next(err);
+	            return true;
+	        }
 	    }
 	
-	    else if ( questionExists(text) ){
-	        err = new Error('That question has been asked already');
-	        err.status=403; // forbidden
-	        next(err);
-	        return;
-	    }
-	
-	    function questionExists(text){
+	    function questionExists(text) {
 	        return questions.some(function(q){
 	            return q.text.toLowerCase() === text.toLowerCase();
 	        });
