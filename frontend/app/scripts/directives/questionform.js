@@ -4,6 +4,6 @@ angular.module('meanDemoApp')
     restrict: "EA",
     scope: {},
     controller: 'QuestionformCtrl',
-    templateUrl: '../../views/question-form.tpl.html'
+    templateUrl: '/views/question-form.tpl.html'
   };
 });
