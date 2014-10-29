@@ -10,7 +10,7 @@
 angular.module('meanDemoApp')
   .factory('Question', function ($resource, $rootScope) {
 
-    var rootUrl = 'http://localhost:4567';
+    var rootUrl = 'http://http://sfhtml5-mean.herokuapp.com';
     var apiRootUrl = rootUrl + '/api';
 
     broadcastEvents();
