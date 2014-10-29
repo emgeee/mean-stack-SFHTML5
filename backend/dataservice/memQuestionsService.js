@@ -40,30 +40,17 @@ function createQuestion(req, res, next) {
     // get the new data from the POST body
     var body = req.body || {};
 
-    // Error checking
-    if (!body.text){
-        var err = new Error('New question must have text');
-        err.status=400;
-        next(err);
-        return;
-    }
-
-    else if ( questionExists(body.text) ){
-        err = new Error('That question has been asked already');
-        err.status=403; // forbidden
-        next(err);
-        return;
-    }
+    if (createBodyHasError(body, next)) { return; }
 
     // Build the question and save it
     var question = {
-        _id: ObjectID(),
-        created: Date.now(),
-        text: body.text.trim(),
-        category: body.category || 'unknown',
-        name: body.name || '',
+        _id:       ObjectID(),
+        created:   Date.now(),
+        text:      body.text,
+        category:  body.category,
+        name:      body.name,
         voteCount: 0,
-        votes: []
+        votes:     []
     };
 
     questions.push(question);
@@ -72,11 +59,33 @@ function createQuestion(req, res, next) {
 
     res.send(question);
 
-    ////////
-    function questionExists(text){
-        return questions.filter(function(q){
-            return q.text.toLowerCase() === text.toLowerCase().trim()}
-        ).length > 0;
+    //////// Error Checking
+
+    function createBodyHasError(body, next){
+        var text = body.text = (body.text || '').trim();
+        body.category = (body.category || 'unknown').trim();
+        body.name = (body.name || '').trim();
+
+        // Error checking
+        if (!text){
+            var err = new Error('New question must have text');
+            err.status=400;
+            next(err)
+            return true;
+        }
+
+        else if ( questionExists(text) ){
+            err = new Error('That question has been asked already');
+            err.status=403; // forbidden
+            next(err);
+            return true;
+        }
+    }
+
+    function questionExists(text) {
+        return questions.some(function(q){
+            return q.text.toLowerCase() === text.toLowerCase();
+        });
     }
 }
 

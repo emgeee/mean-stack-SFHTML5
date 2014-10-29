@@ -102,18 +102,11 @@ function createQuestion(req, res, next) {
 
     // get the new data from the POST body
     var body = req.body || {};
-    var text = body.text && body.text.trim();
 
-    // Error checking
-    if (!text){
-        var err = new Error('New question must have text');
-        err.status=400;
-        next(err);
-        return;
-    }
+    if (createBodyHasError(body, next)) { return; }
 
     // Check for duplicate; save question if not duplicate
-    Questions.findOne({text: text}, function(err, question) {
+    Questions.findOne({text: body.text}, function(err, question) {
         if(err) { return next(err); }
 
         if (question) {
@@ -122,19 +115,22 @@ function createQuestion(req, res, next) {
             next(err);
             return;
         }
+
         saveQuestion();
     });
+
+    ///////////
 
     function saveQuestion(){
         // Build the question and save it
         // let MongoDb generate the ObjectID
         var question = {
-            created: Date.now(),
-            text: text,
-            category: body.category || 'unknown',
-            name: body.name || '',
+            created:   Date.now(),
+            text:      body.text,
+            category:  body.category,
+            name:      body.name,
             voteCount: 0,
-            votes: []
+            votes:     []
         };
 
         Questions.insert(question, {w:1}, function(err) {
@@ -144,7 +140,24 @@ function createQuestion(req, res, next) {
             return res.send(question);
         });
     }
+
+    function createBodyHasError(body, next){
+        var text = body.text = (body.text || '').trim();
+        body.category = (body.category || 'unknown').trim();
+        body.name = (body.name || '').trim();
+
+        // Error checking
+        if (!text){
+            var err = new Error('New question must have text');
+            err.status=400;
+            next(err)
+            return true;
+        }
+
+        // defer duplicate checking to MongoDb
+    }
 }
+
 
 
 function voteForQuestion(req, res, next) {

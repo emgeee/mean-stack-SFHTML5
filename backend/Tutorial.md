@@ -393,6 +393,26 @@ They all need a `:id` parameter. They all return a 404 if they can't find a Ques
 		createQuestions: createQuestions,
 
 * Here's its implementation:
+function createQuestion(req, res, next) {
+
+    // get the new data from the POST body
+    var body = req.body || {};
+    var text = (body.text || '').trim();
+
+    // Build the question and save it
+    var question = {
+        _id:       ObjectID(),
+        created:   Date.now(),
+        text:      text,
+        category:  (body.category || 'unknown').trim(),
+        name:      (body.name || '').trim(),
+        voteCount: 0,
+        votes:     []
+    };
+
+    questions.push(question);
+
+    res.send(question);
 
 		function createQuestion(req, res, next) {
 	
@@ -436,9 +456,9 @@ There's almost no error checking at all. What if there's no text? What if someon
 	    }
 	
 	    function questionExists(text){
-	        return questions.filter(function(q){
-	            return q.text.toLowerCase() === text.toLowerCase()}
-	        ).length > 0;
+	        return questions.some(function(q){
+	            return q.text.toLowerCase() === text.toLowerCase();
+	        });
 	    }
 
 ## Test it with Postman!
