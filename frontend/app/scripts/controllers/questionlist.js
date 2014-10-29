@@ -52,19 +52,21 @@ angular.module('meanDemoApp')
     $scope.$on('questionAdded', function(event, question) {
       question.new = true;
       $scope.questions.unshift(question);
+      $scope.$apply();
       $timeout(function() {
         delete question.new;
       }, 2000);
     });
 
     $scope.$on('voteAdded', function (event, voteMsg) {
-      $scope.questions.some(function(question) {
-        if (question._id === voteMsg.qid) {
-          question.voteCount = voteMsg.voteCount;
-          return true;
+      var questions = $scope.questions;
+      for (var i=0, len=questions.length; i < len; i++){
+        if (questions[i]._id === voteMsg.qid) {
+          questions[i].voteCount = voteMsg.voteCount;
+          $scope.$apply();
+          break;
         }
-        return false;
-      });
+      }
     });
 
   });
