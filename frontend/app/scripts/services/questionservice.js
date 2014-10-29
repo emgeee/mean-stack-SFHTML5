@@ -8,9 +8,15 @@
  * Factory in the meanDemoApp.
  */
 angular.module('meanDemoApp')
-  .factory('Question', function ($resource, $rootScope) {
+  .factory('Question', function ($resource, $rootScope, $location) {
 
-    var rootUrl = 'http://http://sfhtml5-mean.herokuapp.com';
+    // Guess where server is based on where client app launched
+    var rootUrl = /localhost/.test($location.host()) ?
+      'http://localhost:4567' :
+      'http://sfhtml5-mean.herokuapp.com';
+
+    console.log("Listening to data server at "+rootUrl);
+
     var apiRootUrl = rootUrl + '/api';
 
     broadcastEvents();
