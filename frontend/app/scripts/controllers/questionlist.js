@@ -50,23 +50,26 @@ angular.module('meanDemoApp')
     // Listen for updates
 
     $scope.$on('questionAdded', function(event, question) {
-      question.new = true;
-      $scope.questions.unshift(question);
-      $scope.$apply();
+      $scope.$apply(function() {
+        question.new = true;
+        $scope.questions.unshift(question);
+      });
+
       $timeout(function() {
         delete question.new;
       }, 2000);
     });
 
     $scope.$on('voteAdded', function (event, voteMsg) {
-      var questions = $scope.questions;
-      for (var i=0, len=questions.length; i < len; i++){
-        if (questions[i]._id === voteMsg.qid) {
-          questions[i].voteCount = voteMsg.voteCount;
-          $scope.$apply();
-          break;
+      $scope.$apply(function() {
+        var questions = $scope.questions;
+        for (var i=0, len=questions.length; i < len; i++){
+          if (questions[i]._id === voteMsg.qid) {
+            questions[i].voteCount = voteMsg.voteCount;
+            break;
+          }
         }
-      }
+      });
     });
 
   });
