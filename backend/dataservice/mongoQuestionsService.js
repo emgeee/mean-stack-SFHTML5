@@ -1,6 +1,6 @@
 var ObjectID = require('mongodb').ObjectID;
 var notifier = require('./notifier');
-var db, questions;
+var db, Questions;
 
 module.exports = {
     createQuestion:       createQuestion,
@@ -17,7 +17,7 @@ module.exports = {
 function ready(cb){ // ready when MongoDb is initialize
     var database = require('./database').start(function(){
         db = database.db;
-        questions = db.collection('questions');
+        Questions = db.collection('questions');
         cb();
     });
     return module.exports;
@@ -49,7 +49,7 @@ function getQuestionsQuery(req, fields){
         // Let's keep it obvious and sort on created.
     }
 
-    return questions.find({}, fields, options);
+    return Questions.find({}, fields, options);
 }
 
 
@@ -86,7 +86,7 @@ function getQuestionSummaries(req, res, next) {
 
 function getQuestionById(req, res, next) {
 
-    questions.findOne({_id: ObjectID(req.params.id)}, function(err, question) {
+    Questions.findOne({_id: ObjectID(req.params.id)}, function(err, question) {
         if(err) { return next(err); }
 
         if (question){
@@ -113,7 +113,7 @@ function createQuestion(req, res, next) {
     }
 
     // Check for duplicate; save question if not duplicate
-    questions.findOne({text: text}, function(err, question) {
+    Questions.findOne({text: text}, function(err, question) {
         if(err) { return next(err); }
 
         if (question) {
@@ -137,7 +137,7 @@ function createQuestion(req, res, next) {
             votes: []
         };
 
-        questions.insert(question, {w:1}, function(err) {
+        Questions.insert(question, {w:1}, function(err) {
             if(err) { return next(err); }
 
             notifier.questionAdded(question);
@@ -155,7 +155,7 @@ function voteForQuestion(req, res, next) {
     // Add a "vote event" to the votes array
     var voteEvent = { vote: vote, time: Date.now() };
 
-    questions.findAndModify(
+    Questions.findAndModify(
         { _id: ObjectID(req.params.id) },
         [],
         {
@@ -180,7 +180,7 @@ function voteForQuestion(req, res, next) {
 
 function deleteQuestion(req, res, next){
 
-    questions.findAndRemove(
+    Questions.findAndRemove(
         {_id: ObjectID(req.params.id)},
         [],
         { w:1},
