@@ -182,6 +182,7 @@ function questionNotFound(next){
 function sortSkipTake(req){
     // copy the Questions collection so we can sort the copy
     var quests  = questions.slice();
+
     var sort = req.query.sort;
 
     if (sort === 'votes'){
@@ -196,11 +197,8 @@ function sortSkipTake(req){
         });
     }
 
-    var skip = parseInt(req.query.offset, 10);
-    skip = isNaN(skip) ? 0 : skip;
-
-    var take = parseInt(req.query.limit, 10);
-    take = isNaN(take) ? quests.length : take;
+    var skip = +req.query.offset || 0 ;
+    var take = +req.query.limit  || quests.length ;
 
     return quests.slice(skip, skip + take);
 }
