@@ -2,6 +2,8 @@
 
 This is the code that accompanied a presentation on the MEAN stack to the SFHTML users group on Oct 30 2014.
 
+[Slides for MEAN overview and Node/Express](https://docs.google.com/presentation/d/1p-7iLAIBR6PZ1tz1n21g_ONbdf7nkIgyscMOczdZgKA)
+
 [Slides for Angular talk](http://emgeee.github.io/mean-stack-SFHTML5/slides/angular)
 
 MEAN (MongoDb + Express + Angular + Node) is an end-to-end technology stack for HTML/JavaScript applications.
