@@ -1,18 +1,20 @@
 # MEAN Stack Demo
 
+MEAN (MongoDb + Express + Angular + Node) is an end-to-end technology stack for HTML/JavaScript applications.
+
 This is the code that accompanied a presentation on the MEAN stack to the SFHTML users group on Oct 30 2014.
 
 [Slides for MEAN overview and Node/Express](https://docs.google.com/presentation/d/1p-7iLAIBR6PZ1tz1n21g_ONbdf7nkIgyscMOczdZgKA)
 
 [Slides for Angular talk](http://emgeee.github.io/mean-stack-SFHTML5/slides/angular)
 
-MEAN (MongoDb + Express + Angular + Node) is an end-to-end technology stack for HTML/JavaScript applications.
-
 ## Prerequisites
 
-You must have node/npm installed. The application can run with its in-memory database ... but then you'd only be looking at the EAN stack :-)
+You must have [**node**](http://nodejs.org/) installed. The application can run with its in-memory database ... but then you'd only be looking at the EAN stack :-)
 
-Install MongoDb first in order to run with the MongoDb database.
+Install [**MongoDb**](http://www.mongodb.org/) in order to run the app with the MongoDb database.
+
+[**Nodemon**](https://github.com/remy/nodemon) and [**node-inspector**](https://github.com/node-inspector/node-inspector) are two handy node runners; they are not required.
 
 # Run it
 
@@ -30,17 +32,19 @@ Start them separately.
    
 			npm start
             node bin/www
+			nodemon bin/www           (auto-restarts node)
             node-debug bin/www        (under node-inspector)
 
     * mongo:
     
             env MONGO=1 npm start
             node bin/www mongo
+			nodemon bin/www  mongo    (auto-restarts node)
             node-debug bin/www mongo  (under node-inspector)
 
 The terminal window tells you that the server is running and in which mode (in-mem or mongo).
 
-You can try the GET apis in a browser. Here are some sample URLs:
+You can try the GET apis in a browser. `localhost:4567` presents an "API test page" with sample links such as:
 
 	http://localhost:4567/api/questions
 	http://localhost:4567/api/questions?limit=3
@@ -89,3 +93,10 @@ The following is a quick orientation to the salient structural features of this 
        Tutorial.md            - How to build the backend from scratch
     
     /frontend                 - the client application written with angular 
+       /app
+           app.js             - the root application module
+           /scripts           - application JavaScript
+               /controllers   - control view presentation
+               /directives
+               /services      - access the data service
+           /views             - HTML templates w/ Angular markup
