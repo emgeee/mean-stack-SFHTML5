@@ -6,6 +6,8 @@ This is the code that accompanied a presentation on the MEAN stack to the SFHTML
 
 [Slides for MEAN overview and Node/Express](https://docs.google.com/presentation/d/1p-7iLAIBR6PZ1tz1n21g_ONbdf7nkIgyscMOczdZgKA)
 
+[Slides for Mongo Talk](https://docs.google.com/presentation/d/1Ze2PbPNAel0ETuNS1mTYk7spPXwbPxdUaqiAgw5B6Zs/edit?usp=sharing)
+
 [Slides for Angular talk](http://emgeee.github.io/mean-stack-SFHTML5/slides/angular)
 
 ## Prerequisites
