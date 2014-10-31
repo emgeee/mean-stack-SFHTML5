@@ -137,3 +137,7 @@ body {
   height: 100%;
   width: 100%;
 }
+
+.reveal pre code {
+  max-height: 600px;
+}

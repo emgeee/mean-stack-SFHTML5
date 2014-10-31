@@ -192,7 +192,10 @@ angular.module('meanDemoApp')
     </section>
     <section>
       <h2>Wrapping Existing Code</h2>
-      <pre><code data-trim contenteditable>
+      <pre class="fragment"><code data-trim contenteditable>
+<category-selector question="question"></category-selector>
+      </code></pre>
+      <pre class="fragment"><code data-trim contenteditable>
 angular.module('meanDemoApp')
 .directive('categorySelector', function() {
   return {
@@ -229,6 +232,9 @@ compile: function(tElem) {
   }
 }
       </code></pre>
+    </section>
+    <section>
+      <h2>bit.ly/mean-code</h2>
     </section>
     <section>
       <h1>Expanding Angular</h1>
