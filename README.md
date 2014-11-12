@@ -24,12 +24,26 @@ Install [**MongoDb**](http://www.mongodb.org/) in order to run the app with the 
 
 # Run it
 
-This app requires both a backend server (for data) and a frontend server (for the client-side application and its assets).
+This app requires *three* servers
+
+* MongoDb database server
+* backend data server 
+* frontend server for the client-side app and its assets
 
 Start them separately.
 
+## Start the MongoDb server
+
+Much depends upon your development environment. Assuming that the `mongod` command is available, the following may work for you:
+* open a terminal/command window
+* change directory to the root of the project
+* `mongod --dbpath database`
+
+The last step launches the MongoDb server, pointing it (via `--dbpath`) to the "database" directory under the project root as the place to put the app database.
+
 ## Start the backend data server
-* start your MongoDb server
+
+* open a terminal or command window
 * open a terminal or command window
 * go to the `backend` directory
 * run `npm install`
