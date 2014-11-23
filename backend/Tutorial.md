@@ -165,7 +165,7 @@ We'll create an express [**router**](http://expressjs.com/api.html#router) for o
 
 * Tell app to use the router by adding the following line the "CORS" line we just added.
 
-    app.use(require('./routes')); // data api routes
+    app.use('/api', require('./routes')); // data api routes
 
 * Open the "index.js" file under "routes"
 
