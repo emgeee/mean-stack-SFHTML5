@@ -8,6 +8,8 @@ Copyright (c) 2014 Alicia Liu, Matt Green, and Ward Bell
 
 License: MIT
 
+[Link to presentation videos](https://thenewcircle.com/s/post/1679/get_mean_a_three_part_introduction_to_the_mean_stack_video)
+
 [Slides for MEAN overview and Node/Express](https://docs.google.com/presentation/d/1p-7iLAIBR6PZ1tz1n21g_ONbdf7nkIgyscMOczdZgKA)
 
 [Slides for Mongo Talk](https://docs.google.com/presentation/d/1Ze2PbPNAel0ETuNS1mTYk7spPXwbPxdUaqiAgw5B6Zs/edit?usp=sharing)
